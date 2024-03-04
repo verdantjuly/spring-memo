@@ -204,6 +204,10 @@
         #cards-box {
             margin-top: 12px;
         }
+
+        #keyword{
+            width: 80%;
+        }
     </style>
     <script>
         // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
@@ -375,6 +379,26 @@
                 }
             })
         }
+
+        function search(){
+            $('#cards-box').empty();
+            let keyword = $('#keyword').val();
+            $.ajax({
+                type: 'GET',
+                url: `/api/keyword?keyword=${keyword}`,
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let message = response[i];
+                        let id = message['id'];
+                        let username = message['username'];
+                        let contents = message['contents'];
+                        let modifiedAt = message['modifiedAt'];
+                        addHTML(id, username, contents, modifiedAt);
+                    }
+                }
+            })
+
+        }
     </script>
 </head>
 
@@ -397,6 +421,10 @@
                   rows="10"></textarea>
         <!--            <button class="btn btn-danger" onclick="writePost()">작성하기</button>-->
         <img src="images/send.png" alt="" onclick="writePost()">
+    </div>
+    <div>
+        <input id="keyword" placeholder="검색할 키워드를 입력해 주세요."/>
+        <button onclick="search()"> 검색 </button>
     </div>
     <div id="cards-box" class="area-read">
         <div class="card">

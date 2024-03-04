@@ -41,5 +41,10 @@ public class MemoController {
 
     }
 
+    @GetMapping("/keyword")
+    public List<MemoResponseDto> getMemosByKeyword(@RequestParam(name = "keyword", defaultValue = "") String keyword){
+        return memoService.getMemosByKeyword(keyword);
+    }
+
 
 }
